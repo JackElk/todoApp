@@ -1,0 +1,14 @@
+# Node / JavaScript
+node_modules/
+dist/
+
+# WebStorm / IDE files
+*.iml
+*.iws
+.idea/
+vcs.xml
+modules.xml
+.name
+
+# Logs
+*.log
