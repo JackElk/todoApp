@@ -11,7 +11,18 @@
 <div class="todo-container">
     <input type="text" id="todo-input" placeholder="Add a new task...">
     <button id="add-btn">Add</button>
-    <ul id="todo-list"></ul>
+    <table id="todo-table">
+        <thead>
+        <tr>
+            <th>Task</th>
+            <th>Date</th>
+            <th>Done</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody id="todo-body">
+        </tbody>
+    </table>
 </div>
 
 <script src="script.js"></script>

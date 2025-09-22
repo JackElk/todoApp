@@ -1,19 +1,41 @@
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
+    background-color: #A0A0A0;
 }
 
-.todo-container {
-    max-width: 400px;
+#todo-input {
+    margin-bottom: 20px;
 }
 
-#todo-list {
-    list-style: none;
-    padding: 0;
+#todo-table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-#todo-list li {
+#todo-table th,
+#todo-table td {
+    border: 1px solid #ccc;
     padding: 8px;
-    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+#todo-table th {
+    background-color: #f4f4f4;
+}
+
+#todo-list li:hover {
+    background-color: white;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 16px;
     cursor: pointer;
+}
+
+.delete-btn:hover {
+    color: darkred;
 }
