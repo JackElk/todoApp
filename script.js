@@ -40,13 +40,12 @@ function addTask(task) {
     tr.append(taskTd, dateTd, doneTd, actionTd);
     toDoList.appendChild(tr);
     input.value = '';
-    console.log(tasks)
 }
 
 
 addBtn.addEventListener('click', () => {
     const text = input.value.trim();
-    if (!text) return;    // call the separate function
+    if (!text) return;
     if (tasks.length > 2) {
         alert('you can\'t add more than 3 tasks')
         return;
