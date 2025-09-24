@@ -18,7 +18,6 @@ function addTask(task) {
     const doneTd = document.createElement('td');
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    checkbox.checked = task.done;
     checkbox.addEventListener('change', () => {
         task.done = checkbox.checked;
     });
@@ -35,8 +34,8 @@ function addTask(task) {
             tasks.splice(index, 1);
         }
     });
-
     actionTd.appendChild(deleteBtn);
+
     tr.append(taskTd, dateTd, doneTd, actionTd);
     toDoList.appendChild(tr);
     input.value = '';
