@@ -6,11 +6,13 @@ body {
 
 #todo-input {
     margin-bottom: 20px;
+    border-radius: 5px;
 }
 
 #todo-table {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
 #todo-table th,
@@ -38,4 +40,45 @@ body {
 
 .delete-btn:hover {
     color: darkred;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.character-card {
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    background: whitesmoke;
+}
+
+.character-card img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+#api-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: cornflowerblue;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+#back-nav {
+    display: inline-block;
+    padding: 10px 20px;
+    background: cornflowerblue;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+#load-characters-rest {
+    margin-top: 20px;
 }

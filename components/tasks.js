@@ -7,37 +7,37 @@ const tasks = []
 function addTask(task) {
     tasks.push(task);
 
-    const tr = document.createElement('tr');
+    const taskRow = document.createElement('tr');
 
-    const taskTd = document.createElement('td');
-    taskTd.textContent = task.text;
+    const taskCell = document.createElement('td');
+    taskCell.textContent = task.text;
 
-    const dateTd = document.createElement('td');
-    dateTd.textContent = task.date
+    const dateCell = document.createElement('td');
+    dateCell.textContent = task.date
 
-    const doneTd = document.createElement('td');
+    const statusCell = document.createElement('td');
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.addEventListener('change', () => {
         task.done = checkbox.checked;
     });
-    doneTd.appendChild(checkbox);
+    statusCell.appendChild(checkbox);
 
-    const actionTd = document.createElement('td');
+    const deleteCell = document.createElement('td');
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = '✖';
     deleteBtn.classList.add('delete-btn');
     deleteBtn.addEventListener('click', () => {
-        tr.remove();
+        taskRow.remove();
         const index = tasks.indexOf(task);
         if (index > -1) {
             tasks.splice(index, 1);
         }
     });
-    actionTd.appendChild(deleteBtn);
+    deleteCell.appendChild(deleteBtn);
 
-    tr.append(taskTd, dateTd, doneTd, actionTd);
-    toDoList.appendChild(tr);
+    taskRow.append(taskCell, dateCell, statusCell, deleteCell);
+    toDoList.appendChild(taskRow);
     input.value = '';
 }
 
