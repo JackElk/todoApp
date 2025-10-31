@@ -1,8 +1,8 @@
-import {ENDPOINTS} from "../api/endpoints.js"
-import {GET_CHARACTERS} from "../api/graphqlQueries.js"
+import {ENDPOINTS} from "../api/endpoints.ts"
+import {GET_CHARACTERS} from "../api/graphqlQueries.ts"
 import {graphqlFetch} from "../utils/graphqlFetch.js"
 import {restFetch} from "../utils/restFetch.js"
-import {renderCharacters} from '../helpers/renderCharacters.js'
+import {renderCharacters} from '../helpers/renderCharacters.ts'
 
 const loadBtnRest = document.getElementById('load-characters-rest');
 const loadBtnGraphQL = document.getElementById('load-characters-graphQL');
