@@ -1,15 +1,6 @@
-export interface Character {
-    id: number;
-    name: string;
-    status: string;
-    species: string;
-    image: string;
-    location: {
-        name: string;
-    };
-}
+import {Character} from "../types";
 
-export function renderCharacters(arr: Character[], htmlElement: HTMLHtmlElement) {
+export function renderCharacters(arr: Character[], htmlElement: HTMLElement) {
     htmlElement.innerHTML = '';
 
     arr.forEach(character => {
