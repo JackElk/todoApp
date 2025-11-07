@@ -1,68 +1,73 @@
 import "../pages/style.css";
-import {ENDPOINTS, GET_CHARACTERS} from '../api';
-import {graphqlFetch} from '../utils';
-import {renderCharacters} from '../helpers/renderCharacters';
-import {PageInfo, GetCharactersGraphQLResponse} from "../types";
+import { ENDPOINTS, GET_CHARACTERS } from "../api";
+import { graphqlFetch } from "../utils";
+import { renderCharacters } from "../helpers/renderCharacters";
+import { PageInfo, GetCharactersGraphQLResponse } from "../types";
 
-const loadBtnGraphQL = document.getElementById('load-characters-graphQL')!;
-const characterList = document.getElementById('character-list')!;
-const prevBtn = document.getElementById('prev-characters-page') as HTMLButtonElement;
-const nextBtn = document.getElementById('next-characters-page') as HTMLButtonElement;
-const pageIndicator = document.getElementById('page-indicator')!;
-let currentPage: number | null = null;
+class CharactersApp {
+    private loadBtn: HTMLButtonElement;
+    private list: HTMLElement;
+    private prevBtn: HTMLButtonElement;
+    private nextBtn: HTMLButtonElement;
+    private pageIndicator: HTMLElement;
+    private currentPage = 1;
 
-function initPaginationUI() {
-    pageIndicator.textContent = '';
+    constructor() {
+        this.loadBtn = document.getElementById("load-characters-graphQL") as HTMLButtonElement;
+        this.list = document.getElementById("character-list") as HTMLElement;
+        this.prevBtn = document.getElementById("prev-characters-page") as HTMLButtonElement;
+        this.nextBtn = document.getElementById("next-characters-page") as HTMLButtonElement;
+        this.pageIndicator = document.getElementById("page-indicator") as HTMLElement;
 
-    prevBtn.disabled = true;
-    nextBtn.disabled = true;
-}
+        this.initUI();
+        this.bindEvents();
+    }
 
-async function fetchCharacters(page: number) {
-    try {
-        const data = await graphqlFetch<GetCharactersGraphQLResponse>(
-            ENDPOINTS.graphQL,
-            GET_CHARACTERS,
-            { page }
-        );
+    private initUI(): void {
+        this.pageIndicator.textContent = "";
+        this.prevBtn.disabled = true;
+        this.nextBtn.disabled = true;
+    }
 
-        characterList.innerHTML = '';
-        renderCharacters(data.characters.results, characterList);
-        currentPage = page;
-        updatePagination(data.characters.info);
-    } catch (error) {
-        console.error('Error fetching data:', error);
+    private bindEvents(): void {
+        this.loadBtn.addEventListener("click", () => this.fetchCharacters(1));
+        this.prevBtn.addEventListener("click", () => this.goToPrevPage());
+        this.nextBtn.addEventListener("click", () => this.goToNextPage());
+    }
+
+    private async fetchCharacters(page: number): Promise<void> {
+        try {
+            const data = await graphqlFetch<GetCharactersGraphQLResponse>(
+                ENDPOINTS.graphQL,
+                GET_CHARACTERS,
+                { page }
+            );
+
+            this.list.innerHTML = "";
+            renderCharacters(data.characters.results, this.list);
+            this.currentPage = page;
+            this.updatePagination(data.characters.info);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
+
+    private updatePagination(info: PageInfo): void {
+        this.pageIndicator.textContent = `Page ${this.currentPage} of ${info.pages}`;
+        this.prevBtn.disabled = info.prev === null;
+        this.nextBtn.disabled = info.next === null;
+    }
+
+    private goToPrevPage(): void {
+        if (this.currentPage > 1) {
+            this.fetchCharacters(this.currentPage - 1);
+        }
+    }
+
+    private goToNextPage(): void {
+        this.fetchCharacters(this.currentPage + 1);
     }
 }
 
-function updatePagination(info: PageInfo) {
-    if (currentPage != null) {
-        pageIndicator.textContent = `Page ${currentPage} of ${info.pages}`;
-    } else {
-        pageIndicator.textContent = '';
-    }
-
-    prevBtn.disabled = info.prev === null;
-    nextBtn.disabled = info.next === null;
-}
-
-prevBtn.addEventListener('click', async () => {
-    if (currentPage && currentPage > 1) {
-        await fetchCharacters(currentPage - 1);
-    }
-});
-
-nextBtn.addEventListener('click', async () => {
-    if (currentPage != null && !nextBtn.disabled) {
-        await fetchCharacters(currentPage + 1);
-    }
-});
-
-initPaginationUI();
-
-if (loadBtnGraphQL && characterList) {
-    loadBtnGraphQL.addEventListener('click', () => {
-        // start loading page 1 (indicator will update after success)
-        fetchCharacters(1);
-    });
-}
+// Initialize only when DOM is ready
+document.addEventListener("DOMContentLoaded", () => new CharactersApp());
