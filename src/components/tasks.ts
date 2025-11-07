@@ -1,3 +1,4 @@
+import "../pages/style.css";
 import {Task} from "../types";
 
 const input = document.getElementById('todo-input') as HTMLInputElement;

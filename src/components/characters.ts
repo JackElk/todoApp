@@ -1,37 +1,68 @@
+import "../pages/style.css";
 import {ENDPOINTS, GET_CHARACTERS} from '../api';
-import {graphqlFetch, restFetch} from '../utils';
+import {graphqlFetch} from '../utils';
 import {renderCharacters} from '../helpers/renderCharacters';
-import {GetCharactersRestResponse, GetCharactersGraphQLResponse} from "../types";
+import {PageInfo, GetCharactersGraphQLResponse} from "../types";
 
-const loadBtnRest = document.getElementById('load-characters-rest') as HTMLButtonElement;
-const loadBtnGraphQL = document.getElementById('load-characters-graphQL') as HTMLButtonElement;
-const characterList = document.getElementById('character-list') as HTMLElement;
+const loadBtnGraphQL = document.getElementById('load-characters-graphQL')!;
+const characterList = document.getElementById('character-list')!;
+const prevBtn = document.getElementById('prev-characters-page') as HTMLButtonElement;
+const nextBtn = document.getElementById('next-characters-page') as HTMLButtonElement;
+const pageIndicator = document.getElementById('page-indicator')!;
+let currentPage: number | null = null;
 
-if (loadBtnRest && loadBtnGraphQL && characterList) {
-    loadBtnRest.addEventListener('click', async () => {
-        try {
-            const data = await restFetch<GetCharactersRestResponse>(ENDPOINTS.rest);
+function initPaginationUI() {
+    pageIndicator.textContent = '';
 
-            characterList.innerHTML = '';
-            renderCharacters(data.results, characterList);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    });
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+}
 
-    loadBtnGraphQL.addEventListener('click', async () => {
-        try {
-            const data = await graphqlFetch<GetCharactersGraphQLResponse>(
-                ENDPOINTS.graphQL,
-                GET_CHARACTERS,
-                { page: 1 }
-            );
-            console.log(data);
+async function fetchCharacters(page: number) {
+    try {
+        const data = await graphqlFetch<GetCharactersGraphQLResponse>(
+            ENDPOINTS.graphQL,
+            GET_CHARACTERS,
+            { page }
+        );
 
-            characterList.innerHTML = '';
-            renderCharacters(data.characters.results, characterList);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
+        characterList.innerHTML = '';
+        renderCharacters(data.characters.results, characterList);
+        currentPage = page;
+        updatePagination(data.characters.info);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+function updatePagination(info: PageInfo) {
+    if (currentPage != null) {
+        pageIndicator.textContent = `Page ${currentPage} of ${info.pages}`;
+    } else {
+        pageIndicator.textContent = '';
+    }
+
+    prevBtn.disabled = info.prev === null;
+    nextBtn.disabled = info.next === null;
+}
+
+prevBtn.addEventListener('click', async () => {
+    if (currentPage && currentPage > 1) {
+        await fetchCharacters(currentPage - 1);
+    }
+});
+
+nextBtn.addEventListener('click', async () => {
+    if (currentPage != null && !nextBtn.disabled) {
+        await fetchCharacters(currentPage + 1);
+    }
+});
+
+initPaginationUI();
+
+if (loadBtnGraphQL && characterList) {
+    loadBtnGraphQL.addEventListener('click', () => {
+        // start loading page 1 (indicator will update after success)
+        fetchCharacters(1);
     });
 }
