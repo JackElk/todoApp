@@ -1,5 +1,8 @@
-export function renderCharacters(arr, htmlElement) {
+import {Character} from "../types";
+
+export function renderCharacters(arr: Character[], htmlElement: HTMLElement) {
     htmlElement.innerHTML = '';
+
     arr.forEach(character => {
         const card = document.createElement('div');
         card.classList.add('character-card');
@@ -11,6 +14,7 @@ export function renderCharacters(arr, htmlElement) {
         <p>Species: ${character.species}</p>
         <p>Location: ${character.location.name}</p>
       `;
+
         htmlElement.appendChild(card);
     });
 }

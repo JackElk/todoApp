@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    /* Output setup */
+    "rootDir": "./src",            // where your .ts files live
+    "outDir": "./dist",            // where compiled .js files go
+    "target": "ES6",               // modern JS output
+    "module": "ESNext",            // use ES modules (import/export)
+    "moduleResolution": "node",    // resolves modules like Node does
+
+    /* Strictness & type checking */
+    "strict": true,                // enables all strict type checks
+    "noImplicitAny": true,         // prevent accidental 'any'
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,          // faster builds, skip .d.ts checking
+
+    /* Compatibility & convenience */
+    "esModuleInterop": true,       // allows default imports from CJS
+    "allowJs": false,              // only .ts files (can enable if migrating)
+    "resolveJsonModule": true,     // lets you import JSON files
+    "sourceMap": true              // helpful for debugging in browser devtools
+  },
+
+  "include": ["src"],              // compile everything in src/
+  "exclude": ["node_modules", "dist"]
+}

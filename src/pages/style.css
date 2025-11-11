@@ -79,6 +79,10 @@ body {
     border-radius: 5px;
 }
 
-#load-characters-rest {
+#load-characters-graphQL {
+    margin-top: 20px;
+}
+
+#pagination-controls {
     margin-top: 20px;
 }

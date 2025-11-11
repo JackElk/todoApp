@@ -1,12 +1,12 @@
-export async function graphqlFetch(endpoint, query, variables) {
+export async function graphqlFetch<T, V = Record<string, unknown>>(endpoint: string, query: string, variables?: V): Promise<T> {
     const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            query: query,
-            variables: { page: variables }
+            query,
+            variables,
         })
     });
     const result = await response.json();
@@ -15,5 +15,5 @@ export async function graphqlFetch(endpoint, query, variables) {
         throw new Error(result.errors[0].message);
     }
 
-    return result.data;
+    return result.data as T;
 }

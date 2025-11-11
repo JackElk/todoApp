@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Rick and Morty Characters</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <h1>Rick and Morty API Practice</h1>
-<a id="back-nav" href="index.html">⬅ Back to Todo</a>
+<a id="back-nav" href="tasks.html">⬅ Back to Todo</a>
 
 <div>
-    <button id="load-characters-rest">Load Characters REST</button>
     <button id="load-characters-graphQL">Load Characters graphQL</button>
     <div id="character-list" class="grid"></div>
 </div>
 
-<script type="module" src="components/characters.js"></script>
+<div id="pagination-controls">
+    <button id="prev-characters-page">Previous page</button>
+    <span id="page-indicator">Page 1</span>
+    <button id="next-characters-page">Next page</button>
+</div>
+
 </body>
 </html>
